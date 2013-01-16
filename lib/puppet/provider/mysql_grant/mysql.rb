@@ -24,8 +24,8 @@ Puppet::Type.type(:mysql_grant).provide(:mysql) do
 
 	desc "Uses mysql as database."
 
-	commands :mysql => '/usr/bin/mysql'
-	commands :mysqladmin => '/usr/bin/mysqladmin'
+	commands :mysql => '/usr/bin/mysql --defaults-file=/root/.my.cnf'
+	commands :mysqladmin => '/usr/bin/mysqladmin --defaults-file=/root/.my.cnf'
 
 	def mysql_flush 
 		mysqladmin "flush-privileges"

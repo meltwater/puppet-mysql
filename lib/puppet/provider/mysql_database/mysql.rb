@@ -45,7 +45,7 @@ Puppet::Type.type(:mysql_database).provide(:mysql,
 	end
 
 	def exists?
-		if mysql("mysql", "--defaults-file=/root/.my.cnf", "-NBe", "show databases").match(/^#{@resource[:name]}$/)
+		if mysql("--defaults-file=/root/.my.cnf", "mysql", "-NBe", "show databases").match(/^#{@resource[:name]}$/)
 			true
 		else
 			false

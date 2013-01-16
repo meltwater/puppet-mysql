@@ -4,8 +4,8 @@ Puppet::Type.type(:mysql_database).provide(:mysql,
 		:parent => Puppet::Provider::Package) do
 
 	desc "Use mysql as database."
-	commands :mysqladmin => '/usr/bin/mysqladmin --defaults-file=/root/.my.cnf'
-	commands :mysql => '/usr/bin/mysql --defaults-file=/root/.my.cnf'
+	commands :mysqladmin => '/usr/bin/mysqladmin'
+	commands :mysql => '/usr/bin/mysql'
 
 	# retrieve the current set of mysql users
 	def self.instances

@@ -1,17 +1,29 @@
-require 'puppet/provider/package'
+# -*- tab-width: 4; ruby-indent-level: 4; indent-tabs-mode: t -*-
+Puppet::Type.type(:mysql_database).provide :mysql, :parent => Puppet::Provider::Package do
+	desc "Provide MySQL interactions via /usr/bin/mysql"
 
-Puppet::Type.type(:mysql_database).provide(:mysql,
-		:parent => Puppet::Provider::Package) do
-
-	desc "Use mysql as database."
-	commands :mysqladmin => '/usr/bin/mysqladmin'
-	commands :mysql => '/usr/bin/mysql'
+	# this is a bit of a hack.
+	# Since puppet evaluates what provider to use at start time rather than run time
+	# we can't specify that commands will exist. Instead we call manually.
+	# I would make these call execute directly, but execpipe needs the path
+	def self.mysqladmin
+		'/usr/bin/mysqladmin'
+	end
+	def self.mysql
+		'/usr/bin/mysql'
+	end
+	def mysqladmin
+		self.class.mysqladmin
+	end
+	def mysql
+		self.class.mysql
+	end
 
 	# retrieve the current set of mysql users
 	def self.instances
 		dbs = []
 
-		cmd = "#{command(:mysql)} --defaults-file=/root/.my.cnf mysql -NBe 'show databases'"
+		cmd = "#{mysql} --defaults-file=/root/.my.cnf mysql -NBe 'show databases'"
 		execpipe(cmd) do |process|
 			process.each do |line|
 				dbs << new( { :ensure => :present, :name => line.chomp } )
@@ -26,7 +38,7 @@ Puppet::Type.type(:mysql_database).provide(:mysql,
 			:ensure => :absent
 		}
 
-		cmd = "#{command(:mysql)} --defaults-file=/root/.my.cnf mysql -NBe 'show databases'"
+		cmd = "#{mysql} --defaults-file=/root/.my.cnf mysql -NBe 'show databases'"
 		execpipe(cmd) do |process|
 			process.each do |line|
 				if line.chomp.eql?(@resource[:name])
@@ -38,14 +50,14 @@ Puppet::Type.type(:mysql_database).provide(:mysql,
 	end
 
 	def create
-		mysqladmin "--defaults-file=/root/.my.cnf", "create", @resource[:name]
+		execute [mysqladmin, "--defaults-file=/root/.my.cnf", "create", @resource[:name]]
 	end
 	def destroy
-		mysqladmin "--defaults-file=/root/.my.cnf", "-f", "drop", @resource[:name]
+		execute [mysqladmin, "--defaults-file=/root/.my.cnf", "-f", "drop", @resource[:name]]
 	end
 
 	def exists?
-		if mysql("--defaults-file=/root/.my.cnf", "mysql", "-NBe", "show databases").match(/^#{@resource[:name]}$/)
+		if execute([mysql, "--defaults-file=/root/.my.cnf", "mysql", "-NBe", "show databases"]).match(/^#{@resource[:name]}$/)
 			true
 		else
 			false

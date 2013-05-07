@@ -45,7 +45,7 @@ class mysql::server::base {
     path => $mysql::params::mycnf,
     owner => root,
     group => root,
-    mode => 644,
+    mode => '0644',
     seltype => "mysqld_etc_t",
     require => Package["mysql-server"],
   }
@@ -75,7 +75,7 @@ class mysql::server::base {
       ensure => present,
       owner => root,
       group => root,
-      mode  => 600,
+      mode  => '0600',
       content => template("mysql/my.cnf.erb"),
       require => Exec["Initialize MySQL server root password"],
     }
@@ -87,7 +87,7 @@ class mysql::server::base {
     file { "/root/.my.cnf":
       owner => root,
       group => root,
-      mode  => 600,
+      mode  => '0600',
       require => Exec["Initialize MySQL server root password"],
     }
 
@@ -121,7 +121,7 @@ class mysql::server::base {
     ensure  => present,
     owner   => mysql,
     group   => mysql,
-    mode    => 640,
+    mode    => '0640',
     seltype => mysqld_log_t,
     path    => $operatingsystem ? {
       /RedHat|Fedora|CentOS/ => "/var/log/mysql-slow-queries.log",

@@ -1,8 +1,5 @@
-/*
-
-==Class: mysql::server
-
-*/
+# ==Class: mysql::server
+# 
 class mysql::server {
 
   include mysql::server::base

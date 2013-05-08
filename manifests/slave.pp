@@ -1,10 +1,7 @@
-/*
-
-== Class: mysql::slave
-
-Define a MySQL slave server
-
-*/
+# == Class: mysql::slave
+# 
+# Define a MySQL slave server
+# 
 class mysql::slave inherits mysql::slave::common {
 
   # binlog_format comes with MySQL 5.1+

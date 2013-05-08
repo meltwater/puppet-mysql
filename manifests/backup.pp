@@ -1,22 +1,20 @@
-/*
-== Class: mysql::backup
-
-Enable mysql daily backup script.
-
-The script /usr/local/bin/mysql-backup.sh will be run every night. It runs
-mysqldump --all-databases. Backups will be stored in /var/backups/mysql.
-
-Attributes:
-- $mysqldump_retention: defines if backup rotate on a weekly, monthly or yearly
-  basis. Accepted values: 'week', 'month', 'year'. Defaults to 'week'.
-- $mysql_backupdir: defines backup location
-  Default value: '/var/backups/mysql'
-- $mysqldump_options: defines options passed to mysqldump command.
-  Please refer to the manpage.
-  Default value: '--all-database --extended-insert'
-- $mysql_post_backup_hook: defines commands to be called after the backup is made, gzipped and moved to $backup_dir/mysql-$date.sql.gz, where $day is the day of the week.
-
-*/
+# == Class: mysql::backup
+# 
+# Enable mysql daily backup script.
+# 
+# The script /usr/local/bin/mysql-backup.sh will be run every night. It runs
+# mysqldump --all-databases. Backups will be stored in /var/backups/mysql.
+# 
+# Attributes:
+# - $mysqldump_retention: defines if backup rotate on a weekly, monthly or yearly
+#   basis. Accepted values: 'week', 'month', 'year'. Defaults to 'week'.
+# - $mysql_backupdir: defines backup location
+#   Default value: '/var/backups/mysql'
+# - $mysqldump_options: defines options passed to mysqldump command.
+#   Please refer to the manpage.
+#   Default value: '--all-database --extended-insert'
+# - $mysql_post_backup_hook: defines commands to be called after the backup is made, gzipped and moved to $backup_dir/mysql-$date.sql.gz, where $day is the day of the week.
+# 
 class mysql::backup {
 
   include mysql::common

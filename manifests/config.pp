@@ -1,24 +1,21 @@
-/*
-
-== Definition: mysql::config
-
-Set mysql configuration parameters
-
-Parameters:
-- *value*: the value to be set, defaults to the empty string;
-- *key*: optionally, set the key (defaults to $name);
-- *ensure*: defaults to present.
-
-Example usage:
-  mysql::config {'mysqld/pid-file':
-    ensure  => present,
-    value   => '/var/run/mysqld/mysqld.pid',
-  }
-
-If the section (e.g. 'mysqld/') is ommitted in the resource name,
-it defaults to 'mysqld/'.
-
-*/
+# == Definition: mysql::config
+# 
+# Set mysql configuration parameters
+# 
+# Parameters:
+# - *value*: the value to be set, defaults to the empty string;
+# - *key*: optionally, set the key (defaults to $name);
+# - *ensure*: defaults to present.
+# 
+# Example usage:
+#   mysql::config {'mysqld/pid-file':
+#     ensure  => present,
+#     value   => '/var/run/mysqld/mysqld.pid',
+#   }
+# 
+# If the section (e.g. 'mysqld/') is ommitted in the resource name,
+# it defaults to 'mysqld/'.
+# 
 define mysql::config (
   $ensure='present',
   $value='',
